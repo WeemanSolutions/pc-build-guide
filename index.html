@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PC Build Guides</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #0d0d0f;
+    color: #e0e0e0;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    padding: 40px 20px;
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  /* Tabs */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid #1e1e2a;
+    padding-bottom: 0;
+  }
+
+  .tab-btn {
+    padding: 10px 20px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: #555;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+    margin-bottom: -1px;
+    letter-spacing: 0.01em;
+  }
+
+  .tab-btn:hover { color: #999; }
+
+  .tab-btn.active {
+    color: #fff;
+    border-bottom-color: #00c8ff;
+  }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* Header per tab */
+  .build-header {
+    margin-bottom: 32px;
+  }
+
+  .build-header h1 {
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.02em;
+  }
+
+  .build-header p {
+    margin-top: 6px;
+    color: #555;
+    font-size: 0.88rem;
+  }
+
+  .progress-bar-wrap {
+    margin-top: 14px;
+    background: #1a1a24;
+    border-radius: 4px;
+    height: 5px;
+    overflow: hidden;
+  }
+
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #00c8ff, #7b2fff);
+    width: 0%;
+    transition: width 0.3s ease;
+    border-radius: 4px;
+  }
+
+  .progress-label {
+    margin-top: 5px;
+    font-size: 0.76rem;
+    color: #444;
+  }
+
+  /* Phases */
+  .phase { margin-bottom: 32px; }
+
+  .phase-title {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: #00c8ff;
+    margin-bottom: 10px;
+    padding-left: 4px;
+  }
+
+  /* Steps */
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 11px 12px;
+    border-radius: 8px;
+    margin-bottom: 3px;
+    cursor: pointer;
+    transition: background 0.15s;
+    user-select: none;
+  }
+
+  .step:hover { background: #13131c; }
+
+  .step.done { opacity: 0.4; }
+  .step.done .step-text { text-decoration: line-through; color: #444; }
+
+  .step-num {
+    min-width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #1a1a24;
+    border: 1px solid #2a2a38;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #555;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .step.done .step-num {
+    background: #0d2a1a;
+    border-color: #1a5c34;
+    color: #2ecc71;
+  }
+
+  .step-check {
+    min-width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    border: 1.5px solid #2a2a38;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 4px;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .step.done .step-check {
+    background: #2ecc71;
+    border-color: #2ecc71;
+  }
+
+  .step.done .step-check::after {
+    content: '';
+    width: 4px;
+    height: 8px;
+    border: 2px solid #0d0d0f;
+    border-top: none;
+    border-left: none;
+    transform: rotate(45deg) translateY(-1px);
+    display: block;
+  }
+
+  .step-text {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #ccc;
+    padding-top: 2px;
+  }
+
+  .step-text .note {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.78rem;
+    color: #4a4a5a;
+  }
+
+  .step-text .warn {
+    display: inline-block;
+    margin-top: 4px;
+    font-size: 0.76rem;
+    color: #ff9f43;
+    background: rgba(255, 159, 67, 0.07);
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 159, 67, 0.18);
+  }
+
+  .reset-btn {
+    margin-top: 28px;
+    background: #1a1a24;
+    border: 1px solid #2a2a38;
+    color: #555;
+    padding: 7px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .reset-btn:hover { color: #ccc; border-color: #444; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('joey')">Build 1 — Joey's PC</button>
+    <button class="tab-btn" onclick="switchTab('gemma')">Build 2 — Gemma's PC</button>
+  </div>
+
+  <!-- ===================== TAB 1: JOEY ===================== -->
+  <div class="tab-panel active" id="tab-joey">
+
+    <div class="build-header">
+      <h1>NZXT H510 → Corsair 4000D RS ARGB White</h1>
+      <p>Ryzen 7 5700X · Sapphire Nitro+ RX 9070 XT · ASUS TUF 850W</p>
+      <div class="progress-bar-wrap"><div class="progress-bar" id="joey-bar"></div></div>
+      <div class="progress-label" id="joey-label">0 of 31 steps complete</div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-title">Prep</div>
+      <div class="step" onclick="toggle(this,'joey')"><div class="step-num">1</div><div class="step-check"></div><div class="step-text">Anti-static wrist strap on, or touch bare metal PSU chassis before touching any components</div></div>
+      <div class="step" onclick="toggle(this,'joey')"><div class="step-num">2</div><div class="step-check"></div><div class="step-text">Fully power down, flip PSU switch off, unplug from wall</div></div>
+      <div class="step" onclick="toggle(this,'joey')"><div class="step-num">3</div><div class="step-check"></div><div class="step-text">Photograph current cable routing inside the H510 for reference</div></div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-title">Strip the H510</div>
+      <div class="step" onclick="toggle(this,'joey')"><div class="step-num">4</div><div class="step-check"></div><div class="step-text">Remove both side panels</div></div>
+      <div class="step" onclick="toggle(this,'joey')"><div class="step-num">5</div><div class="step-check"></div><div class="step-text">Unplug all cables from mobo, drives, and PSU</div></div>
+      <div class="step" onclick="toggle(this,'joey')"><div class="step-num">6</div><div class="step-check"></div><div class="step-text">Remove GPU — unscrew bracket, release PCIe latch, lift out</div></div>
+      <div class="step" onclick="toggle(this,'joey')"><div class="step-num">7</div><div class="step-check"></div><div class="step-text">Remove RAM sticks</div></div>
+      <div class="step" onclick="toggle(this,'joey')"><div class="step-num">8</div><div class="step-check"></div><div class="step-text">Remove AK120 SE cooler — unscrew backplate, lift off, set aside thermal paste face up</div></div>
+      <div class="step" onclick="toggle(this,'joey')"><div class="step-num">9</div><div class="step-check"></div><div class="step-text">Unmount all drives — SN570 1TB NVMe, WD Blue 500GB SATA, Seagate 3TB HDD</div></div>
+      <div class="step" onclick="toggle(this,'joey')"><div class="step-num">10</div><div class="step-check"></div><div class="step-text">Unscrew mobo (7–9 screws) and carefully lift out</div></div>
+      <div class="step" onclick="toggle(this,'joey')"><div class="step-num">11</div><div class="step-check"></div><div class="step-text">Remove PSU</div></div>
+      <div class="step" onclick="toggle(this,'joey')"><div class="step-num">12</div><div class="step-check"></div><div class="step-text">Remove P14 fans you're taking to the 4000D</div></div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-title">Prepare the 4000D</div>
+      <div class="step" onclick="toggle(this,'joey')"><div class="step-num">13</div><div class="step-check"></div><div class="step-text">Confirm ATX standoffs match mobo screw holes before inserting board</div></div>
+      <div class="step" onclick="toggle(this,'joey')"><div class="step-num">14</div><div class="step-check"></div><div class="step-text">Install PSU into bottom shroud — route cables through cable management area before fitting mobo</div></div>
+      <div class="step" onclick="toggle(this,'joey')"><div class="step-num">15</div><div class="step-check"></div><div class="step-text">Mount side fans (2× P14) — upper and lower positions, blowing inward toward GPU
+        <span class="note">Lower fan aligns with GPU; upper covers mid-case. Match heights to front fans aesthetically.</span>
+      </div></div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-title">Build into the 4000D</div>
+      <div class="step" onclick="toggle(this,'joey')"><div class="step-num">16</div><div class="step-check"></div><div class="step-text">Fit I/O shield (if separate), lower mobo onto standoffs and screw in</div></div>
+      <div class="step" onclick="toggle(this,'joey')"><div class="step-num">17</div><div class="step-check"></div><div class="step-text">Reseat RAM — A2/B2 slots for dual channel on B550 Tomahawk</div></div>
+      <div class="step" onclick="toggle(this,'joey')"><div class="step-num">18</div><div class="step-check"></div><div class="step-text">Reinstall AK120 SE — clean old paste, apply fresh pea-sized dot, mount and torque screws diagonally</div></div>
+      <div class="step" onclick="toggle(this,'joey')"><div class="step-num">19</div><div class="step-check"></div><div class="step-text">Connect 24-pin ATX and 8-pin EPS CPU power</div></div>
+      <div class="step" onclick="toggle(this,'joey')"><div class="step-num">20</div><div class="step-check"></div><div class="step-text">Mount SATA SSD and 3TB HDD in trays, connect SATA data and power cables</div></div>
+      <div class="step" onclick="toggle(this,'joey')"><div class="step-num">21</div><div class="step-check"></div><div class="step-text">Install top exhaust fans (P14s) — spread upper and lower on top rack</div></div>
+      <div class="step" onclick="toggle(this,'joey')"><div class="step-num">22</div><div class="step-check"></div><div class="step-text">Install rear exhaust fan (1× P12)</div></div>
+      <div class="step" onclick="toggle(this,'joey')"><div class="step-num">23</div><div class="step-check"></div><div class="step-text">Connect all fan PWM cables to mobo headers
+        <span class="note">CPU_FAN1 → AK120 SE · SYS_FAN1 → front P12s · SYS_FAN2 → side P14s · SYS_FAN3/4 → top P14s · SYS_FAN5 → rear P12</span>
+      </div></div>
+      <div class="step" onclick="toggle(this,'joey')"><div class="step-num">24</div><div class="step-check"></div><div class="step-text">Connect ARGB cables to JARGB1/JARGB2
+        <span class="warn">⚠ Leave JARGB_V2 headers DISCONNECTED until after BIOS update</span>
+      </div></div>
+      <div class="step" onclick="toggle(this,'joey')"><div class="step-num">25</div><div class="step-check"></div><div class="step-text">Install GPU into PCIe x16 slot, screw in bracket, connect PCIe power cables</div></div>
+      <div class="step" onclick="toggle(this,'joey')"><div class="step-num">26</div><div class="step-check"></div><div class="step-text">Connect front panel headers — power button, reset, USB 3.0, USB-C, HD audio</div></div>
+      <div class="step" onclick="toggle(this,'joey')"><div class="step-num">27</div><div class="step-check"></div><div class="step-text">Cable manage with velcro ties, refit side panels</div></div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-title">First Boot &amp; Post-Install</div>
+      <div class="step" onclick="toggle(this,'joey')"><div class="step-num">28</div><div class="step-check"></div><div class="step-text">Power on — confirm POST, all fans spin</div></div>
+      <div class="step" onclick="toggle(this,'joey')"><div class="step-num">29</div><div class="step-check"></div><div class="step-text">BIOS update — unplug JARGB_V2 → MSI Centre Live Update (AJ0 → 7c91vAK) → reconnect ARGB after reboot
+        <span class="warn">⚠ Close AMD Adrenalin and all monitoring software before flashing</span>
+      </div></div>
+      <div class="step" onclick="toggle(this,'joey')"><div class="step-num">30</div><div class="step-check"></div><div class="step-text">Set fan curves in MSI Centre → Cooling Wizard</div></div>
+      <div class="step" onclick="toggle(this,'joey')"><div class="step-num">31</div><div class="step-check"></div><div class="step-text">Boot Windows — confirm all drives visible, re-run Sapphire TRIXX fan test, install Phanteks LED strips</div></div>
+    </div>
+
+    <button class="reset-btn" onclick="resetBuild('joey')">Reset all</button>
+  </div>
+
+  <!-- ===================== TAB 2: GEMMA ===================== -->
+  <div class="tab-panel" id="tab-gemma">
+
+    <div class="build-header">
+      <h1>Gemma's PC — Fresh Build in NZXT H510</h1>
+      <p>Ryzen 5 3600X · RX 5700 XT · MSI B550M PRO-VDH · 32GB DDR4</p>
+      <div class="progress-bar-wrap"><div class="progress-bar" id="gemma-bar"></div></div>
+      <div class="progress-label" id="gemma-label">0 of 22 steps complete</div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-title">Prep</div>
+      <div class="step" onclick="toggle(this,'gemma')"><div class="step-num">1</div><div class="step-check"></div><div class="step-text">Anti-static wrist strap on</div></div>
+      <div class="step" onclick="toggle(this,'gemma')"><div class="step-num">2</div><div class="step-check"></div><div class="step-text">Lay out all components on a clear static-free surface — mobo, CPU, RAM, GPU, PSU, SN570 NVMe</div></div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-title">Motherboard Prep (outside case)</div>
+      <div class="step" onclick="toggle(this,'gemma')"><div class="step-num">3</div><div class="step-check"></div><div class="step-text">Install Ryzen 5 3600X into B550M PRO-VDH AM4 socket — lift lever, align gold triangle to socket arrow, drop in (zero force), lower lever</div></div>
+      <div class="step" onclick="toggle(this,'gemma')"><div class="step-num">4</div><div class="step-check"></div><div class="step-text">Install RAM (2×16GB DDR4) into A2/B2 slots for dual channel
+        <span class="note">Check mobo manual if unsure which slots — typically the 2nd and 4th from CPU</span>
+      </div></div>
+      <div class="step" onclick="toggle(this,'gemma')"><div class="step-num">5</div><div class="step-check"></div><div class="step-text">Install SN570 500GB NVMe into M2_1 slot — remove standoff screw, slide in at 30° angle, press flat, replace screw</div></div>
+      <div class="step" onclick="toggle(this,'gemma')"><div class="step-num">6</div><div class="step-check"></div><div class="step-text">Apply thermal paste — pea-sized dot in centre of CPU IHS</div></div>
+      <div class="step" onclick="toggle(this,'gemma')"><div class="step-num">7</div><div class="step-check"></div><div class="step-text">Mount Wraith Stealth stock cooler — align bracket notches, press down clips, connect 4-pin fan cable to CPU_FAN1</div></div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-title">Build into the H510</div>
+      <div class="step" onclick="toggle(this,'gemma')"><div class="step-num">8</div><div class="step-check"></div><div class="step-text">Remove both H510 side panels</div></div>
+      <div class="step" onclick="toggle(this,'gemma')"><div class="step-num">9</div><div class="step-check"></div><div class="step-text">Press I/O shield (from B550M PRO-VDH box) into H510 rear cutout — click into place</div></div>
+      <div class="step" onclick="toggle(this,'gemma')"><div class="step-num">10</div><div class="step-check"></div><div class="step-text">Confirm standoffs match Micro-ATX holes, lower mobo in and screw down (6 screws)</div></div>
+      <div class="step" onclick="toggle(this,'gemma')"><div class="step-num">11</div><div class="step-check"></div><div class="step-text">Install PSU into bottom of H510</div></div>
+      <div class="step" onclick="toggle(this,'gemma')"><div class="step-num">12</div><div class="step-check"></div><div class="step-text">Install RX 5700 XT into PCIe x16 slot — press until latch clicks, screw in bracket, connect 8-pin power cable</div></div>
+      <div class="step" onclick="toggle(this,'gemma')"><div class="step-num">13</div><div class="step-check"></div><div class="step-text">Connect 24-pin ATX power</div></div>
+      <div class="step" onclick="toggle(this,'gemma')"><div class="step-num">14</div><div class="step-check"></div><div class="step-text">Connect 8-pin EPS CPU power (top-left of mobo)</div></div>
+      <div class="step" onclick="toggle(this,'gemma')"><div class="step-num">15</div><div class="step-check"></div><div class="step-text">Connect front panel headers — power button, USB 3.0, HD audio
+        <span class="note">Check B550M PRO-VDH manual page for JFP1/JFP2 pin layout</span>
+      </div></div>
+      <div class="step" onclick="toggle(this,'gemma')"><div class="step-num">16</div><div class="step-check"></div><div class="step-text">Connect any case fans to SYS_FAN headers</div></div>
+      <div class="step" onclick="toggle(this,'gemma')"><div class="step-num">17</div><div class="step-check"></div><div class="step-text">Cable manage, refit side panels</div></div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-title">First Boot &amp; Windows Install</div>
+      <div class="step" onclick="toggle(this,'gemma')"><div class="step-num">18</div><div class="step-check"></div><div class="step-text">Connect display (HDMI to TV or monitor), keyboard, mouse</div></div>
+      <div class="step" onclick="toggle(this,'gemma')"><div class="step-num">19</div><div class="step-check"></div><div class="step-text">Power on — confirm POST, check fans spin, no beep codes</div></div>
+      <div class="step" onclick="toggle(this,'gemma')"><div class="step-num">20</div><div class="step-check"></div><div class="step-text">Boot from Windows 11 USB installer — install to SN570 NVMe
+        <span class="note">Unactivated is fully legal — cosmetic watermark only, all features work</span>
+      </div></div>
+      <div class="step" onclick="toggle(this,'gemma')"><div class="step-num">21</div><div class="step-check"></div><div class="step-text">Install AMD Adrenalin drivers for RX 5700 XT, then run Windows Update</div></div>
+      <div class="step" onclick="toggle(this,'gemma')"><div class="step-num">22</div><div class="step-check"></div><div class="step-text">Verify in Device Manager — CPU, 32GB RAM, 500GB NVMe, RX 5700 XT all showing correctly</div></div>
+    </div>
+
+    <button class="reset-btn" onclick="resetBuild('gemma')">Reset all</button>
+  </div>
+
+</div>
+
+<script>
+  const KEYS = { joey: 'pc-build-joey-v1', gemma: 'pc-build-gemma-v1' };
+
+  function getState(build) {
+    try { return JSON.parse(localStorage.getItem(KEYS[build])) || {}; } catch { return {}; }
+  }
+
+  function saveState(build, state) {
+    localStorage.setItem(KEYS[build], JSON.stringify(state));
+  }
+
+  function stepId(el) {
+    return el.querySelector('.step-num').textContent.trim();
+  }
+
+  function updateProgress(build) {
+    const panel = document.getElementById('tab-' + build);
+    const steps = panel.querySelectorAll('.step');
+    const done = panel.querySelectorAll('.step.done').length;
+    const pct = Math.round((done / steps.length) * 100);
+    document.getElementById(build + '-bar').style.width = pct + '%';
+    document.getElementById(build + '-label').textContent = done + ' of ' + steps.length + ' steps complete';
+  }
+
+  function toggle(el, build) {
+    el.classList.toggle('done');
+    const state = getState(build);
+    state[stepId(el)] = el.classList.contains('done');
+    saveState(build, state);
+    updateProgress(build);
+  }
+
+  function resetBuild(build) {
+    const panel = document.getElementById('tab-' + build);
+    panel.querySelectorAll('.step.done').forEach(s => s.classList.remove('done'));
+    saveState(build, {});
+    updateProgress(build);
+  }
+
+  function switchTab(build) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelector('[onclick="switchTab(\'' + build + '\')"]').classList.add('active');
+    document.getElementById('tab-' + build).classList.add('active');
+  }
+
+  // Restore saved state on load
+  ['joey', 'gemma'].forEach(build => {
+    const state = getState(build);
+    const panel = document.getElementById('tab-' + build);
+    panel.querySelectorAll('.step').forEach(el => {
+      if (state[stepId(el)]) el.classList.add('done');
+    });
+    updateProgress(build);
+  });
+</script>
+</body>
+</html>
