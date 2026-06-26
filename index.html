@@ -222,6 +222,7 @@
   <div class="tabs">
     <button class="tab-btn active" onclick="switchTab('joey')">Build 1 — Joey's PC</button>
     <button class="tab-btn" onclick="switchTab('gemma')">Build 2 — Gemma's PC</button>
+    <button class="tab-btn" onclick="switchTab('uv')">Undervolt — RX 9070 XT</button>
   </div>
 
   <!-- ===================== TAB 1: JOEY ===================== -->
@@ -353,10 +354,55 @@
     <button class="reset-btn" onclick="resetBuild('gemma')">Reset all</button>
   </div>
 
+  <!-- ===================== TAB 3: UNDERVOLT ===================== -->
+  <div class="tab-panel" id="tab-uv">
+
+    <div class="build-header">
+      <h1>Undervolt — Sapphire Nitro+ RX 9070 XT</h1>
+      <p>AMD Adrenalin · V/F Curve · Lower temps, quieter fans, better sustained clocks</p>
+      <div class="progress-bar-wrap"><div class="progress-bar" id="uv-bar"></div></div>
+      <div class="progress-label" id="uv-label">0 of 12 steps complete</div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-title">Setup</div>
+      <div class="step" onclick="toggle(this,'uv')"><div class="step-num">1</div><div class="step-check"></div><div class="step-text">Open AMD Adrenalin → <strong>Performance</strong> tab → <strong>Tuning</strong></div></div>
+      <div class="step" onclick="toggle(this,'uv')"><div class="step-num">2</div><div class="step-check"></div><div class="step-text">Change Tuning Control from <strong>Auto → Manual</strong></div></div>
+      <div class="step" onclick="toggle(this,'uv')"><div class="step-num">3</div><div class="step-check"></div><div class="step-text">Enable <strong>GPU Tuning</strong> toggle</div></div>
+      <div class="step" onclick="toggle(this,'uv')"><div class="step-num">4</div><div class="step-check"></div><div class="step-text">Click <strong>Advanced</strong> to open the V/F curve editor
+        <span class="note">Curve plots Frequency (X axis) vs Voltage (Y axis)</span>
+      </div></div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-title">Apply the Undervolt</div>
+      <div class="step" onclick="toggle(this,'uv')"><div class="step-num">5</div><div class="step-check"></div><div class="step-text">Find the <strong>rightmost point</strong> on the curve — this is max frequency/voltage</div></div>
+      <div class="step" onclick="toggle(this,'uv')"><div class="step-num">6</div><div class="step-check"></div><div class="step-text">Drag it <strong>down</strong> to reduce voltage — safe starting point: drop ~100mV from stock
+        <span class="note">Target: ~2900 MHz @ 1000mV as a first attempt</span>
+      </div></div>
+      <div class="step" onclick="toggle(this,'uv')"><div class="step-num">7</div><div class="step-check"></div><div class="step-text">Click <strong>Apply</strong></div></div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-title">Test Stability</div>
+      <div class="step" onclick="toggle(this,'uv')"><div class="step-num">8</div><div class="step-check"></div><div class="step-text">Run <strong>Furmark</strong> or <strong>Unigine Superposition</strong> for 15–20 minutes</div></div>
+      <div class="step" onclick="toggle(this,'uv')"><div class="step-num">9</div><div class="step-check"></div><div class="step-text"><strong>Stable, no crashes?</strong> → Drop another 25–50mV and retest</div></div>
+      <div class="step" onclick="toggle(this,'uv')"><div class="step-num">10</div><div class="step-check"></div><div class="step-text"><strong>Crashed or artefacts?</strong> → Increase voltage by 25mV and retest</div></div>
+      <div class="step" onclick="toggle(this,'uv')"><div class="step-num">11</div><div class="step-check"></div><div class="step-text">Repeat until you find the lowest stable voltage
+        <span class="note">Most 9070 XTs land between 900–1000mV depending on silicon lottery</span>
+      </div></div>
+      <div class="step" onclick="toggle(this,'uv')"><div class="step-num">12</div><div class="step-check"></div><div class="step-text">Play a demanding game for 30+ mins as final real-world stability check
+        <span class="warn">⚠ Stress tests pass ≠ always game stable. Real-world test is mandatory.</span>
+      </div></div>
+    </div>
+
+    <button class="reset-btn" onclick="resetBuild('uv')">Reset all</button>
+  </div>
+
 </div>
 
 <script>
-  const KEYS = { joey: 'pc-build-joey-v1', gemma: 'pc-build-gemma-v1' };
+  const KEYS = { joey: 'pc-build-joey-v1', gemma: 'pc-build-gemma-v1', uv: 'pc-build-uv-v1' };
 
   function getState(build) {
     try { return JSON.parse(localStorage.getItem(KEYS[build])) || {}; } catch { return {}; }
@@ -402,13 +448,14 @@
   }
 
   // Restore saved state on load
-  ['joey', 'gemma'].forEach(build => {
+  ['joey', 'gemma', 'uv'].forEach(build => {
     const state = getState(build);
     const panel = document.getElementById('tab-' + build);
+    if (!panel) return;
     panel.querySelectorAll('.step').forEach(el => {
       if (state[stepId(el)]) el.classList.add('done');
     });
-    updateProgress(build);
+    if (panel.querySelectorAll('.step').length) updateProgress(build);
   });
 </script>
 </body>
