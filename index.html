@@ -377,8 +377,8 @@
     <div class="phase">
       <div class="phase-title">Apply the Undervolt</div>
       <div class="step" onclick="toggle(this,'uv')"><div class="step-num">5</div><div class="step-check"></div><div class="step-text">Find the <strong>rightmost point</strong> on the curve — this is max frequency/voltage</div></div>
-      <div class="step" onclick="toggle(this,'uv')"><div class="step-num">6</div><div class="step-check"></div><div class="step-text">Drag it <strong>down</strong> to reduce voltage — safe starting point: drop ~100mV from stock
-        <span class="note">Target: ~2900 MHz @ 1000mV as a first attempt</span>
+      <div class="step" onclick="toggle(this,'uv')"><div class="step-num">6</div><div class="step-check"></div><div class="step-text">Drag it <strong>down</strong> to reduce voltage — <strong>start at -75mV from stock</strong>
+        <span class="note">Nitro+ stock boost is ~2970 MHz @ ~1050–1075mV. -75mV lands at ~975–1000mV. Community-tested: clocks often go UP to 2900–2900+ MHz (less thermal throttle). -100mV works on some cards, fails on others.</span>
       </div></div>
       <div class="step" onclick="toggle(this,'uv')"><div class="step-num">7</div><div class="step-check"></div><div class="step-text">Click <strong>Apply</strong></div></div>
     </div>
@@ -389,7 +389,7 @@
       <div class="step" onclick="toggle(this,'uv')"><div class="step-num">9</div><div class="step-check"></div><div class="step-text"><strong>Stable, no crashes?</strong> → Drop another 25–50mV and retest</div></div>
       <div class="step" onclick="toggle(this,'uv')"><div class="step-num">10</div><div class="step-check"></div><div class="step-text"><strong>Crashed or artefacts?</strong> → Increase voltage by 25mV and retest</div></div>
       <div class="step" onclick="toggle(this,'uv')"><div class="step-num">11</div><div class="step-check"></div><div class="step-text">Repeat until you find the lowest stable voltage
-        <span class="note">Most 9070 XTs land between 900–1000mV depending on silicon lottery</span>
+        <span class="note">Most 9070 XTs settle at -75mV (975–1000mV) or -100mV (950–975mV). Power drops 15–30W; boost clock typically rises 100–150 MHz vs stock.</span>
       </div></div>
       <div class="step" onclick="toggle(this,'uv')"><div class="step-num">12</div><div class="step-check"></div><div class="step-text">Play a demanding game for 30+ mins as final real-world stability check
         <span class="warn">⚠ Stress tests pass ≠ always game stable. Real-world test is mandatory.</span>
